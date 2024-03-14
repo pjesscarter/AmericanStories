@@ -1,0 +1,11 @@
+INFO:root:Transcribing 1 files
+INFO:root:../scans\9790a6dbaf66802b7b674be0e8347ff1a9749b49.pdf
+INFO:root:Image Load Time: 2.9530688999802805
+INFO:root:Images to Layouts: 1.6203119999845512
+INFO:root:Images to Layouts: 1.6370513999718241
+INFO:root:Images to Layouts: 1.4921086999820545
+INFO:root:Images to Layouts: 1.532902600010857
+INFO:root:Images to Layouts: 1.5151111999875866
+INFO:root:Images to Layouts: 1.5027357000508346
+INFO:root:Images to Layouts: 1.4783949000411667
+INFO:root:Images to Layouts: 1.5478056000429206

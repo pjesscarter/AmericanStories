@@ -56,41 +56,45 @@ def pdfs_to_images(source_path, save_path, data_source, nested=True, resize=Fals
             else:
                 # Grab pdf an dload first page
                 pdf_file = Pdf.open(filepath)
-                page1 = pdf_file.pages[0]
-                # Grab image layer
-                #rawimage = page1.images['/im1']
-                relevant_key = [key for key in page1.images.keys()][0]
-                rawimage = page1.images[relevant_key]
-                # Convert image
-                # print(repr(rawimage.ColorSpace))
-                pdfimage = PdfImage(rawimage)
-                image = pdfimage.as_pil_image()
+                images = []
+                for page in pdf_file.pages:
+
+                    # Grab image layer
+                    #rawimage = page1.images['/im1']
+                    relevant_key = [key for key in page.images.keys()][0]
+                    rawimage = page.images[relevant_key]
+                    # Convert image
+                    # print(repr(rawimage.ColorSpace))
+                    pdfimage = PdfImage(rawimage)
+                    image = pdfimage.as_pil_image()
+                    images.append(image)
 
             # Deskew
-            if deskew:
-                image_as_array = np.array(image, dtype=np.float32)
-                if len(image_as_array.shape) == 2:
-                    grayscale = image_as_array
-                else:
-                    grayscale = cv2.cvtColor(image_as_array, cv2.COLOR_BGR2GRAY)
-                deskew_angle = determine_skew(grayscale)
-                deskew_angle = deskew_angle if deskew_angle >= 0 else 90 + deskew_angle
-                if abs(deskew_angle) >= 5:
-                    image = image.rotate(deskew_angle)
-                else:
-                    pass
+            for i, image in enumerate(images):
+                if deskew:
+                    image_as_array = np.array(image, dtype=np.float32)
+                    if len(image_as_array.shape) == 2:
+                        grayscale = image_as_array
+                    else:
+                        grayscale = cv2.cvtColor(image_as_array, cv2.COLOR_BGR2GRAY)
+                    deskew_angle = determine_skew(grayscale)
+                    deskew_angle = deskew_angle if deskew_angle >= 0 else 90 + deskew_angle
+                    if abs(deskew_angle) >= 5:
+                        image = image.rotate(deskew_angle)
+                    else:
+                        pass
 
-            # convert to RGB if necessary
-            if image.mode != 'RGB':
-                image = image.convert('RGB')
+                # convert to RGB if necessary
+                if image.mode != 'RGB':
+                    image = image.convert('RGB')
 
-            if resize:
-                width, height = image.size
-                image = image.resize((int(round(width / 4)), int(round(height / 4))))
+                if resize:
+                    width, height = image.size
+                    image = image.resize((int(round(width / 4)), int(round(height / 4))))
 
-            # Save and add to data table
-            image.save(f'{save_path}/{filename}.jpg', quality=60)
-            data_table.append([filepath, f'{filename}.jpg'])
+                # Save and add to data table
+                image.save(f'{save_path}/{filename}_p{i}.jpg', quality=60)
+                data_table.append([filepath, f'{filename}_p{i}.jpg'])
 
         except Exception as e:
             print(filename)
