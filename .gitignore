@@ -1,2 +1,3 @@
 ./src/__pycache__/
 ./outputs
+process_scans_google.sh

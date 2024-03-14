@@ -9,6 +9,5 @@ python ../AmericanStories/src/run_img2txt_yolo_pipeline.py --manifest_path ../sc
 									    --line_model_backend yolov8 \
 									    --layout_model_backend yolov8 \
 									    --recognizer_word_thresh 0.85 \
-									    --processor_id "f32a18559f7fef85"\
-									    --project_id "pol-pjcarter-dissertation"
-
+									    --processor_id "myid"\
+									    --project_id "myproject"
